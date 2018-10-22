@@ -12,23 +12,29 @@ public class Exp844 {
 	public static void main(String[] args) {
 		int length = secretWord.length();
 		char input = ' ';
-		do {
+		A:do {
 			input = checkRightChar(input);
 			String inp = Character.toString(input);
 			checkIncrementCorrect(inp);
-
 			if (secretWord.contains(inp)) {// CHECK BEFOR REPLACE if found simple
 				replaceChar(length, input);
 			}
 
-			if (disguisedWord.equals(secretWord)) {// to make break we need to check every char in secretWord to be as
-													// "--------"
-				displayResult();
-				System.out.println("finish");
-				break;
+			int count = 0;
+			for (int i = 0; i < secretWord.length(); i++) {
+				if (secretWord.charAt(i) == '*') {// to make break we need to check every char in secretWord to be as
+					count++;
+					if (count == secretWord.length()) {
+						displayResult();
+						break A;
+					}
+				}
 			}
-			System.out.println(disguisedWord);
+
 		} while (true);// loop
+		
+		System.out.println("I have done");
+	
 	}// main
 
 	private static void checkIncrementCorrect(String inp) {
@@ -61,11 +67,10 @@ public class Exp844 {
 		int count = 0;
 		do {
 			count = secretWord.indexOf(input); // to not start or continue search before & after we find all char
-			System.out.println(count);
 			while ((count <= length - 1) && (count != -1)) {// out of range and we still have more same repeating char
 															// like input
-
-				if (input == secretWord.charAt(count)) {// to change secretWord and disguisedWord
+				if (input == secretWord.charAt(count)) {// check for next time for repeating char in secretWord to
+														// change secretWord and disguisedWord
 					String firstS = secretWord.substring(0, count);
 					String lastS = secretWord.substring(count + 1, length);
 					secretWord = firstS + "*" + lastS;
